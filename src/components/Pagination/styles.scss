@@ -1,0 +1,25 @@
+@import '../../theme/palette';
+
+  .paginationItem {
+    font-size: 10px;
+    display: inline-block;
+    width: 18px;
+    height: 18px;
+    margin: 2px;
+    text-align: center;
+    line-height: 18px;
+    background-color: $paletteColor3;
+  }
+
+  .isSelected {
+    background-color: $paletteColor4;
+  }
+
+  .pagination {
+    margin: 5px;
+    text-align: center;
+  }
+
+  .dots {
+    padding: 3px;
+  }

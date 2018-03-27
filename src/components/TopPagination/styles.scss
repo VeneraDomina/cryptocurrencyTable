@@ -1,0 +1,52 @@
+@import '../../theme/_mixins.scss';
+@import '../../theme/palette';
+
+* {
+  margin: 0;
+  padding: 0;
+}
+nav {
+  width: 100px;
+  position: absolute;
+  right: 0;
+
+  ul {
+    @include flexbox();
+    @include justify-content(space-between);
+    list-style: none;
+
+    li {
+      padding: 2px 5px;
+      border-bottom: 1px solid transparent;
+
+      a {
+        display: block;
+        text-decoration: none;
+        color: $paletteColor1;
+        line-height: 12px;
+      }
+
+      a:first-child {
+        padding-left: 0;
+      }
+
+      a:last-child {
+        padding-right: 0;
+      }
+
+      .notSelected {
+        font-weight: normal;
+        font-size: 10px;
+      }
+
+      .isSelected {
+        font-weight: bold;
+        font-size: 12px;
+      }
+    }
+
+    li:hover a {
+      font-size: 12px;
+    }
+  }
+}

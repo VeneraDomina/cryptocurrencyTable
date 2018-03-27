@@ -1,0 +1,21 @@
+@import '../../theme/palette';
+
+ table {
+   width: 100%;
+   border: 1px solid $paletteColor1;
+   border-collapse: collapse;
+   table-layout: auto;
+
+   th {
+     border: 1px solid $paletteColor1;
+     padding: 5px;
+   }
+ }
+
+ .tableCaption {
+   font-size: 14px;
+   font-weight: bold;
+   text-align: left;
+   margin-bottom: 10px;
+ }
+

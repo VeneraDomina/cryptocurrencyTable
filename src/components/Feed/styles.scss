@@ -1,0 +1,29 @@
+@import '../../theme/palette';
+
+section {
+  margin: 20px 0 0 20px;
+  position: relative;
+  display: inline-block;
+  width: 300px;
+  font-size: 12px;
+
+  .icon {
+    width: 20px;
+  }
+
+  .tableCaption {
+    text-align: left;
+    margin-bottom: 10px;
+  }
+
+  td {
+    border: 1px solid $paletteColor1;
+    padding: 5px;
+    text-align: center;
+  }
+
+  .absorbingColumn {
+    width: 100%;
+    text-align: left;
+  }
+}
