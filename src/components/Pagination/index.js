@@ -16,7 +16,6 @@ export default class Pagination extends Component {
         this.showCryptosPerPage =:: this._showCryptosPerPage;
     }
 
-
     shouldComponentUpdate (nextProps) {
         if (this.props.currentPage === 1) {
             return true;
@@ -43,6 +42,7 @@ export default class Pagination extends Component {
         const pageList = pageNumbers.map((number) => (
             <a
                 className = { currentPage === number ? `${Styles.paginationItem} ${Styles.isSelected}` : Styles.paginationItem }
+                key = { number }
                 onClick = { this.showCryptosPerPage }>
                 { number }
             </a>
