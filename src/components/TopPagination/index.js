@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import Styles from './styles.scss';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { changeQty } from '../../actions/paginationActions';
 
 
-export default class TopPagination extends Component {
+class TopPagination extends Component {
     static propTypes = {
-        changeQtyCryptosInTable: PropTypes.func.isRequired,
-        cryptosQtyCommon:        PropTypes.number.isRequired,
-        qtyCryptosInTable:       PropTypes.number.isRequired
+        cryptos:  PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+        dispatch: PropTypes.func.isRequired,
+        qty:      PropTypes.number.isRequired
     };
     constructor () {
         super();
@@ -15,37 +17,38 @@ export default class TopPagination extends Component {
     }
 
     shouldComponentUpdate (nextProps) {
-        return this.props.qtyCryptosInTable !== nextProps.qtyCryptosInTable;
+        return this.props.qty !== nextProps.qty;
     }
 
     _changeQty (e) {
-        const qty = Number(e.target.innerHTML) || Number(this.props.cryptosQtyCommon);
+        const qtyCommon = Object.keys(this.props.cryptos).length;
+        const qty = Number(e.target.innerHTML) || qtyCommon;
 
-        this.props.changeQtyCryptosInTable(qty);
+        this.props.dispatch(changeQty(qty));
     }
     render () {
-        const { qtyCryptosInTable } = this.props;
+        const { qty } = this.props;
 
         return (
             <nav>
                 <ul>
                     <li><a
-                        className = { qtyCryptosInTable === 15 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 15 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         15</a></li>
                     <li><a
-                        className = { qtyCryptosInTable === 50 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 50 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         50</a></li>
                     <li><a
-                        className = { qtyCryptosInTable === 100 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 100 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         100</a></li>
                     <li><a
-                        className = { qtyCryptosInTable > 100 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty > 100 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         All</a></li>
@@ -54,3 +57,9 @@ export default class TopPagination extends Component {
         );
     }
 }
+const mapStateToProps = (state) => ({
+    cryptos: state.cryptosReducer.items,
+    qty:     state.paginationReducer.qtyCryptosInTable
+});
+
+export default connect(mapStateToProps)(TopPagination);

@@ -2,13 +2,15 @@
 
   .paginationItem {
     font-size: 10px;
-    display: inline-block;
     width: 18px;
     height: 18px;
+    line-height: 18px;
+    color: $paletteColor1;
+    background-color: $paletteColor3;
+    display: inline-block;
     margin: 2px;
     text-align: center;
-    line-height: 18px;
-    background-color: $paletteColor3;
+    text-decoration: none;
   }
 
   .isSelected {
