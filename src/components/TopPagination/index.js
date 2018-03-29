@@ -7,9 +7,9 @@ import { changeQty } from '../../actions/paginationActions';
 
 class TopPagination extends Component {
     static propTypes = {
-        cryptos:  PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
-        dispatch: PropTypes.func.isRequired,
-        qty:      PropTypes.number.isRequired
+        cryptoList: PropTypes.array.isRequired,
+        dispatch:   PropTypes.func.isRequired,
+        qty:        PropTypes.number.isRequired
     };
     constructor () {
         super();
@@ -21,8 +21,7 @@ class TopPagination extends Component {
     }
 
     _changeQty (e) {
-        const qtyCommon = Object.keys(this.props.cryptos).length;
-        const qty = Number(e.target.innerHTML) || qtyCommon;
+        const qty = Number(e.target.innerHTML) || this.props.cryptoList.length;
 
         this.props.dispatch(changeQty(qty));
     }
@@ -58,8 +57,8 @@ class TopPagination extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    cryptos: state.cryptosReducer.items,
-    qty:     state.paginationReducer.qtyCryptosInTable
+    cryptoList: state.cryptoReducer.cryptoList,
+    qty:        state.paginationReducer.qtyCryptosInTable
 });
 
 export default connect(mapStateToProps)(TopPagination);

@@ -7,7 +7,7 @@ import { changePage } from '../../actions/paginationActions';
 
 class Pagination extends Component {
     static propTypes = {
-        cryptos:     PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+        cryptoList:  PropTypes.array.isRequired,
         currentPage: PropTypes.number.isRequired,
         dispatch:    PropTypes.func.isRequired,
         qty:         PropTypes.number.isRequired
@@ -27,10 +27,9 @@ class Pagination extends Component {
     }
 
     render () {
-        const { cryptos, currentPage, qty } = this.props;
-        const qtyCommon = Object.keys(cryptos).length;
+        const { cryptoList, currentPage, qty } = this.props;
         const pageNumbers = [];
-        const pageQty = Math.ceil(qtyCommon / qty);
+        const pageQty = Math.ceil(cryptoList.length / qty);
         const dots = <span className = { Styles.dots }>&hellip;</span>;
         let pageNumberForRender = null;
 
@@ -59,7 +58,7 @@ class Pagination extends Component {
             pageNumberForRender.push(dots, pageList[currentPage - 2], pageList[currentPage - 1], pageList[currentPage + 1], dots, pageList[pageList.length - 1]);
         }
 
-        pageNumberForRender = qty === qtyCommon
+        pageNumberForRender = qty === cryptoList.length
             ? <p />
             : pageNumberForRender;
 
@@ -72,7 +71,7 @@ class Pagination extends Component {
 }
 const mapStateToProps = (state) => ({
     currentPage: state.paginationReducer.currentPage,
-    cryptos:     state.cryptosReducer.items,
+    cryptoList:  state.cryptoReducer.cryptoList,
     qty:         state.paginationReducer.qtyCryptosInTable
 });
 

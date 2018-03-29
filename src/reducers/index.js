@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
-import cryptosReducer from './cryptosReducer.js';
+import cryptoReducer from './cryptoReducer.js';
 import paginationReducer from './paginationReducer.js';
 
 export default combineReducers({
-    cryptosReducer,
+    cryptoReducer,
     paginationReducer
 });

@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import { apiImage } from '../../constants';
 import Styles from './styles.scss';
 
 
 class CryptoTable extends Component {
     static propTypes = {
-        cryptos:     PropTypes.oneOfType([PropTypes.array, PropTypes.object]).isRequired,
+        cryptoList:  PropTypes.array.isRequired,
         currentPage: PropTypes.number.isRequired,
         qty:         PropTypes.number.isRequired
     };
@@ -18,23 +17,7 @@ class CryptoTable extends Component {
     }
 
     render () {
-        const { cryptos, currentPage, qty } = this.props;
-
-        const cryptoKey = Object.keys(cryptos);
-        let cryptoNumber = null;
-
-        const cryptoList = cryptoKey.map(
-            (key) => (
-                <tr key = { cryptos[key].Id }>
-                    <td>{ ++cryptoNumber }</td>
-                    <td> <img
-                        className = { Styles.icon }
-                        src = { apiImage + cryptos[key].ImageUrl }
-                    /></td>
-                    <td className = { Styles.absorbingColumn }>{ cryptos[key].CoinName }</td>
-                </tr>
-            ));
-
+        const { cryptoList, currentPage, qty } = this.props;
         const table = cryptoList.slice((currentPage-1)*qty, currentPage*qty);
 
         return (
@@ -54,8 +37,7 @@ class CryptoTable extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    cryptos:     state.cryptosReducer.items,
-    cryptolist:  state.cryptosReducer.cryptolist,
+    cryptoList:  state.cryptoReducer.cryptoList,
     currentPage: state.paginationReducer.currentPage,
     qty:         state.paginationReducer.qtyCryptosInTable
 });

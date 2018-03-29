@@ -11,7 +11,7 @@ const initialState = {
     error:      null
 };
 
-export default function cryptosReducer (state = initialState, action) {
+export default function cryptoReducer (state = initialState, action) {
 
     if (action.type === FETCH_CRYPTOS_BEGIN) {
         return {

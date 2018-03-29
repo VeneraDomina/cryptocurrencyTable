@@ -41,8 +41,8 @@ class Feed extends Component {
     }
 }
 const mapStateToProps = (state) => ({
-    loading: state.cryptosReducer.loading,
-    error:   state.cryptosReducer.error
+    loading: state.cryptoReducer.loading,
+    error:   state.cryptoReducer.error
 });
 
 export default connect(mapStateToProps)(Feed);
