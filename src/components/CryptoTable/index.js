@@ -18,15 +18,8 @@ class CryptoTable extends Component {
     }
 
     render () {
-        const { cryptoList, currentPage, searcher, qty } = this.props;
-        let filteredCryptoList = [];
-
-        if (cryptoList.length) {
-            console.log(searcher);
-            filteredCryptoList = cryptoList.filter((item) => item[3].includes(searcher));
-        }
-
-        const table = filteredCryptoList.slice((currentPage-1)*qty, currentPage*qty);
+        const { cryptoList, currentPage, qty } = this.props;
+        const table = cryptoList.slice((currentPage-1)*qty, currentPage*qty);
         let tableForRender = [];
 
         if (table.length) {
@@ -61,7 +54,7 @@ class CryptoTable extends Component {
 }
 const mapStateToProps = (state) => ({
     searcher:    state.searchReducer,
-    cryptoList:  state.cryptoReducer.cryptoList,
+    cryptoList:  state.cryptoReducer.cryptoList.filter((item) => item[3].includes(state.searchReducer)),
     currentPage: state.paginationReducer.currentPage,
     qty:         state.paginationReducer.qtyCryptosInTable
 });
