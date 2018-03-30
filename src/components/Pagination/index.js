@@ -55,7 +55,7 @@ class Pagination extends Component {
             pageNumberForRender.push(dots, pageList.slice([pageList.length - 6]));
         } else {
             pageNumberForRender = pageList.slice(0, 1);
-            pageNumberForRender.push(dots, pageList[currentPage - 2], pageList[currentPage - 1], pageList[currentPage + 1], dots, pageList[pageList.length - 1]);
+            pageNumberForRender.push(dots, pageList[currentPage - 2], pageList[currentPage - 1], pageList[currentPage], dots, pageList[pageList.length - 1]);
         }
 
         pageNumberForRender = qty === cryptoList.length

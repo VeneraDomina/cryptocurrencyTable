@@ -6,6 +6,7 @@ import './styles.scss';
 import TopPagination from '../TopPagination';
 import CryptoTable from '../CryptoTable';
 import Pagination from '../Pagination';
+import Searcher from '../Searcher';
 import { fetchCryptos } from '../../actions/cryptoActions';
 
 
@@ -33,6 +34,7 @@ class Feed extends Component {
 
         return (
             <section>
+                <Searcher />
                 <TopPagination />
                 <CryptoTable />
                 <Pagination />

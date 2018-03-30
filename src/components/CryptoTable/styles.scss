@@ -15,6 +15,21 @@
      text-align: left;
      margin-bottom: 10px;
    }
+
+   td {
+     border: 1px solid $paletteColor1;
+     padding: 5px;
+     text-align: center;
+   }
+
+   .absorbingColumn {
+     width: 100%;
+     text-align: left;
+   }
+
+   .icon {
+     width: 20px;
+   }
  }
 
  .tableCaption {

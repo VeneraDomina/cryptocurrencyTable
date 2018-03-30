@@ -1,8 +1,5 @@
 import { FETCH_CRYPTOS_BEGIN, FETCH_CRYPTOS_SUCCESS, FETCH_CRYPTOS_FAILURE } from '../actions/cryptoActions';
 import { apiImage } from '../constants';
-import React from 'react';
-
-import Styles from './styles.scss';
 
 const initialState = {
     items:      [],
@@ -23,16 +20,13 @@ export default function cryptoReducer (state = initialState, action) {
         let cryptoNumber = null;
         const cryptoKey = Object.keys(action.payload.cryptos);
         const cryptoList = cryptoKey.map(
-            (key) => (
-                <tr key = { action.payload.cryptos[key].Id }>
-                    <td>{ ++cryptoNumber }</td>
-                    <td> <img
-                        className = { Styles.icon }
-                        src = { apiImage + action.payload.cryptos[key].ImageUrl }
-                    /></td>
-                    <td className = { Styles.absorbingColumn }>{ action.payload.cryptos[key].CoinName }</td>
-                </tr>
-            ));
+            (key) => [
+                action.payload.cryptos[key].Id,
+                ++cryptoNumber,
+                apiImage + action.payload.cryptos[key].ImageUrl,
+                action.payload.cryptos[key].CoinName
+            ]
+        );
 
         return {
             ...state,

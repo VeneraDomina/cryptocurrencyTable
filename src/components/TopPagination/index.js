@@ -47,6 +47,11 @@ class TopPagination extends Component {
                         onClick = { this.changeQty }>
                         100</a></li>
                     <li><a
+                        className = { qty === 200 ? Styles.isSelected : Styles.notSelected }
+                        href = '#'
+                        onClick = { this.changeQty }>
+                        200</a></li>
+                    <li><a
                         className = { qty > 100 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
