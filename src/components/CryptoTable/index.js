@@ -22,7 +22,6 @@ class CryptoTable extends Component {
         let filteredCryptoList = [];
 
         if (cryptoList.length) {
-            console.log(searcher);
             filteredCryptoList = cryptoList.filter((item) => item[3].includes(searcher));
         }
 
