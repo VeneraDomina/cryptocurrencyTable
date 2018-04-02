@@ -1,27 +1,46 @@
 import React, { Component } from 'react';
-import Styles from './styles.scss';
 import PropTypes from 'prop-types';
+
+import Styles from './styles.scss';
 
 
 export default class CryptoTable extends Component {
     static propTypes = {
-        tableContent: PropTypes.array.isRequired
+        cryptoList:  PropTypes.array.isRequired,
+        currentPage: PropTypes.number.isRequired,
+        qty:         PropTypes.number.isRequired,
+        searcher:    PropTypes.string.isRequired
     };
 
     shouldComponentUpdate (nextProps) {
-        if (!this.props.tableContent[0]) {
-            return true;
-        }
-
-        return this.props.tableContent.length !== nextProps.tableContent.length
-            ? true
-            : this.props.tableContent[0].key !== nextProps.tableContent[0].key;
-
+        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.searcher === nextProps.searcher);
     }
 
-
     render () {
-        const { tableContent } = this.props;
+        const { cryptoList, currentPage, searcher, qty } = this.props;
+        let filteredCryptoList = [];
+
+        if (cryptoList.length) {
+            filteredCryptoList = cryptoList.filter((item) => item[3].includes(searcher));
+        }
+
+        const table = filteredCryptoList.slice((currentPage-1)*qty, currentPage*qty);
+
+        let tableForRender = [];
+
+        if (table.length) {
+            tableForRender = table.map(
+                (key, i) => (
+                    <tr key = { table[i][0] }>
+                        <td>{ table[i][1] }</td>
+                        <td> <img
+                            className = { Styles.icon }
+                            src = { table[i][2] }
+                        /></td>
+                        <td className = { Styles.absorbingColumn }>{ table[i][3] }</td>
+                    </tr>
+                ));
+        }
 
         return (
 
@@ -33,7 +52,7 @@ export default class CryptoTable extends Component {
                         <th>Icon</th>
                         <th>Name</th>
                     </tr>
-                    { tableContent }
+                    { tableForRender }
                 </tbody>
             </table>
         );

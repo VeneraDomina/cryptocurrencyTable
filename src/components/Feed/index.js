@@ -1,97 +1,62 @@
 import React, { Component } from 'react';
-import axios from 'axios';
-import { string } from 'prop-types';
-import Styles from './styles.scss';
+import PropTypes from 'prop-types';
+import './styles.scss';
 
 import TopPagination from '../TopPagination';
 import CryptoTable from '../CryptoTable';
 import Pagination from '../Pagination';
-
+import Searcher from '../Searcher';
 
 export default class Feed extends Component {
     static propTypes = {
-        api:      string.isRequired,
-        apiImage: string.isRequired
+        changePage:   PropTypes.func.isRequired,
+        changeQty:    PropTypes.func.isRequired,
+        cryptoList:   PropTypes.array.isRequired,
+        currentPage:  PropTypes.number.isRequired,
+        fetchCryptos: PropTypes.func.isRequired,
+        findCrypto:   PropTypes.func.isRequired,
+        loading:      PropTypes.bool.isRequired,
+        qty:          PropTypes.number.isRequired,
+        searcher:     PropTypes.string.isRequired,
+        error:        PropTypes.oneOf([null, PropTypes.object])
     };
 
-    constructor () {
-        super();
-        this.showCryptosPerPage =:: this._showCryptosPerPage;
-        this.changeQtyCryptosInTable =:: this._changeQtyCryptosInTable;
-    }
-
-    state = {
-        cryptosList:       [],
-        currentPage:       1,
-        tableContent:      [],
-        qtyCryptosInTable: 15
-    };
-
-    componentWillMount () {
-        this._getCryptos();
-    }
-
-    _getCryptos () {
-        axios.get(this.props.api)
-            .then((res) => {
-
-                let cryptosList = res.data;
-                let cryptoNumber = null;
-                const { apiImage } = this.props;
-                const cryptoAbbreviation = Object.keys(cryptosList.Data);
-
-                cryptosList = cryptoAbbreviation.map(
-                    (key) => (
-                        <tr key = { cryptosList.Data[key].Id }>
-                            <td>{ ++cryptoNumber }</td>
-                            <td> <img
-                                className = { Styles.icon }
-                                src = { apiImage + cryptosList.Data[key].ImageUrl }
-                            /></td>
-                            <td className = { Styles.absorbingColumn }>{ cryptosList.Data[key].CoinName }</td>
-                        </tr>
-                    ));
-                this.setState({ cryptosList }, () => this._showCryptosPerPage(1));
-            });
-    }
-
-    _showCryptosPerPage (page) {
-        const { cryptosList, qtyCryptosInTable } = this.state;
-        const tableContent = cryptosList.slice((page-1)*qtyCryptosInTable, (page-1)*qtyCryptosInTable+qtyCryptosInTable);
-
-        this.setState(() => ({
-            tableContent,
-            currentPage: page
-        }));
-    }
-
-    _changeQtyCryptosInTable (qty) {
-        this.setState({ qtyCryptosInTable: qty }, () => this._showCryptosPerPage(1));
+    componentDidMount () {
+        this.props.fetchCryptos();
     }
 
     render () {
+        const { error, loading, cryptoList, currentPage, searcher, qty, changeQty, changePage, findCrypto }  = this.props;
 
-        const { cryptosList, tableContent, qtyCryptosInTable, currentPage } = this.state;
-        const { apiImage } = this.props;
-        const currentPageInt = Number(currentPage);
-        const cryptosQtyCommon = Object.keys(cryptosList).length;
+        if (error) {
+            return <div>Error! { error.message }</div>;
+        }
+
+        if (loading) {
+            return <div>Loading...</div>;
+        }
 
         return (
             <section>
+                <Searcher
+                    findCrypto = { findCrypto }
+                />
                 <TopPagination
-                    changeQtyCryptosInTable = { this.changeQtyCryptosInTable }
-                    cryptosQtyCommon = { cryptosQtyCommon }
-                    qtyCryptosInTable = { qtyCryptosInTable }
+                    changeQty = { changeQty }
+                    cryptoList = { cryptoList }
+                    qty = { qty }
                 />
                 <CryptoTable
-                    apiImage = { apiImage }
-                    tableContent = { tableContent }
+                    cryptoList = { cryptoList }
+                    currentPage = { currentPage }
+                    qty = { qty }
+                    searcher = { searcher }
                 />
                 <Pagination
-                    cryptosQtyCommon = { cryptosQtyCommon }
-                    currentPage = { currentPageInt }
-                    qtyCryptosInTable = { qtyCryptosInTable }
-                    showCryptosPerPage = { this.showCryptosPerPage }
+                    changePage = { changePage }
+                    cryptoList = { cryptoList }
+                    currentPage = { currentPage }
+                    qty = { qty }
                 />
             </section>
         );

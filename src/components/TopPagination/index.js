@@ -2,12 +2,11 @@ import React, { Component } from 'react';
 import Styles from './styles.scss';
 import PropTypes from 'prop-types';
 
-
 export default class TopPagination extends Component {
     static propTypes = {
-        changeQtyCryptosInTable: PropTypes.func.isRequired,
-        cryptosQtyCommon:        PropTypes.number.isRequired,
-        qtyCryptosInTable:       PropTypes.number.isRequired
+        changeQty:  PropTypes.func.isRequired,
+        cryptoList: PropTypes.array.isRequired,
+        qty:        PropTypes.number.isRequired
     };
     constructor () {
         super();
@@ -15,37 +14,43 @@ export default class TopPagination extends Component {
     }
 
     shouldComponentUpdate (nextProps) {
-        return this.props.qtyCryptosInTable !== nextProps.qtyCryptosInTable;
+        return this.props.qty !== nextProps.qty;
     }
 
     _changeQty (e) {
-        const qty = Number(e.target.innerHTML) || Number(this.props.cryptosQtyCommon);
+        const qty = Number(e.target.innerHTML) || this.props.cryptoList.length;
 
-        this.props.changeQtyCryptosInTable(qty);
+        this.props.changeQty(qty);
     }
     render () {
-        const { qtyCryptosInTable } = this.props;
+
+        const { qty } = this.props;
 
         return (
             <nav>
                 <ul>
                     <li><a
-                        className = { qtyCryptosInTable === 15 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 15 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         15</a></li>
                     <li><a
-                        className = { qtyCryptosInTable === 50 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 50 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         50</a></li>
                     <li><a
-                        className = { qtyCryptosInTable === 100 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 100 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         100</a></li>
                     <li><a
-                        className = { qtyCryptosInTable > 100 ? Styles.isSelected : Styles.notSelected }
+                        className = { qty === 200 ? Styles.isSelected : Styles.notSelected }
+                        href = '#'
+                        onClick = { this.changeQty }>
+                        200</a></li>
+                    <li><a
+                        className = { qty > 100 ? Styles.isSelected : Styles.notSelected }
                         href = '#'
                         onClick = { this.changeQty }>
                         All</a></li>

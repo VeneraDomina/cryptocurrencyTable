@@ -6,9 +6,10 @@
   padding: 0;
 }
 nav {
-  width: 100px;
+  width: 140px;
   position: absolute;
   right: 0;
+  top: 32px;
 
   ul {
     @include flexbox();
