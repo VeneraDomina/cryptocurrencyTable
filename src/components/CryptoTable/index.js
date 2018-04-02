@@ -8,11 +8,12 @@ export default class CryptoTable extends Component {
     static propTypes = {
         cryptoList:  PropTypes.array.isRequired,
         currentPage: PropTypes.number.isRequired,
-        qty:         PropTypes.number.isRequired
+        qty:         PropTypes.number.isRequired,
+        searcher:    PropTypes.string.isRequired
     };
 
     shouldComponentUpdate (nextProps) {
-        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.cryptoList.length === nextProps.cryptoList.length);
+        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.searcher === nextProps.searcher);
     }
 
     render () {
