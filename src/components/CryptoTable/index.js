@@ -8,23 +8,16 @@ export default class CryptoTable extends Component {
     static propTypes = {
         cryptoList:  PropTypes.array.isRequired,
         currentPage: PropTypes.number.isRequired,
-        qty:         PropTypes.number.isRequired,
-        searcher:    PropTypes.string.isRequired
+        qty:         PropTypes.number.isRequired
     };
 
     shouldComponentUpdate (nextProps) {
-        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.searcher === nextProps.searcher);
+        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.cryptoList.length === nextProps.cryptoList.length);
     }
 
     render () {
-        const { cryptoList, currentPage, searcher, qty } = this.props;
-        let filteredCryptoList = [];
-
-        if (cryptoList.length) {
-            filteredCryptoList = cryptoList.filter((item) => item[3].includes(searcher));
-        }
-
-        const table = filteredCryptoList.slice((currentPage-1)*qty, currentPage*qty);
+        const { cryptoList, currentPage, qty } = this.props;
+        const table = cryptoList.slice((currentPage-1)*qty, currentPage*qty);
 
         let tableForRender = [];
 
