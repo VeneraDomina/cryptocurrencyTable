@@ -1,28 +1,27 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { findCrypto } from '../../actions/searcherAction';
+
 import Styles from './styles.scss';
 
-class Searcher extends Component {
+export default class Searcher extends Component {
     static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        searcher: PropTypes.string.isRequired
+        findCrypto: PropTypes.func.isRequired
     };
     constructor () {
         super();
         this.findCrypto =:: this._findCrypto;
     }
 
-    shouldComponentUpdate (nextProps) {
-        return !this.props.searcher === nextProps.searcher;
+    shouldComponentUpdate () {
+        return false;
     }
 
     _findCrypto () {
-        this.props.dispatch(findCrypto(this.inputCrypto.value));
+        this.props.findCrypto(this.inputCrypto.value);
     }
 
     render () {
+
         return (
             <div>
                 <input
@@ -38,8 +37,3 @@ class Searcher extends Component {
         );
     }
 }
-const mapStateToProps = (state) => ({
-    searcher: state.searchReducer
-});
-
-export default connect(mapStateToProps)(Searcher);

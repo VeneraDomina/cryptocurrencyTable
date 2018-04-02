@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import './styles.scss';
 
@@ -7,22 +6,27 @@ import TopPagination from '../TopPagination';
 import CryptoTable from '../CryptoTable';
 import Pagination from '../Pagination';
 import Searcher from '../Searcher';
-import { fetchCryptos } from '../../actions/cryptoActions';
 
-
-class Feed extends Component {
+export default class Feed extends Component {
     static propTypes = {
-        dispatch: PropTypes.func.isRequired,
-        loading:  PropTypes.bool.isRequired,
-        error:    PropTypes.oneOf([null, PropTypes.object])
+        changePage:   PropTypes.func.isRequired,
+        changeQty:    PropTypes.func.isRequired,
+        cryptoList:   PropTypes.array.isRequired,
+        currentPage:  PropTypes.number.isRequired,
+        fetchCryptos: PropTypes.func.isRequired,
+        findCrypto:   PropTypes.func.isRequired,
+        loading:      PropTypes.bool.isRequired,
+        qty:          PropTypes.number.isRequired,
+        searcher:     PropTypes.string.isRequired,
+        error:        PropTypes.oneOf([null, PropTypes.object])
     };
 
     componentDidMount () {
-        this.props.dispatch(fetchCryptos());
+        this.props.fetchCryptos();
     }
 
     render () {
-        const { error, loading } = this.props;
+        const { error, loading, cryptoList, currentPage, searcher, qty, changeQty, changePage, findCrypto }  = this.props;
 
         if (error) {
             return <div>Error! { error.message }</div>;
@@ -34,17 +38,27 @@ class Feed extends Component {
 
         return (
             <section>
-                <Searcher />
-                <TopPagination />
-                <CryptoTable />
-                <Pagination />
+                <Searcher
+                    findCrypto = { findCrypto }
+                />
+                <TopPagination
+                    changeQty = { changeQty }
+                    cryptoList = { cryptoList }
+                    qty = { qty }
+                />
+                <CryptoTable
+                    cryptoList = { cryptoList }
+                    currentPage = { currentPage }
+                    qty = { qty }
+                    searcher = { searcher }
+                />
+                <Pagination
+                    changePage = { changePage }
+                    cryptoList = { cryptoList }
+                    currentPage = { currentPage }
+                    qty = { qty }
+                />
             </section>
         );
     }
 }
-const mapStateToProps = (state) => ({
-    loading: state.cryptoReducer.loading,
-    error:   state.cryptoReducer.error
-});
-
-export default connect(mapStateToProps)(Feed);

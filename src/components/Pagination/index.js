@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
 import Styles from './styles.scss';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { changePage } from '../../actions/paginationActions';
 
-
-class Pagination extends Component {
+export default class Pagination extends Component {
     static propTypes = {
+        changePage:  PropTypes.func.isRequired,
         cryptoList:  PropTypes.array.isRequired,
         currentPage: PropTypes.number.isRequired,
-        dispatch:    PropTypes.func.isRequired,
         qty:         PropTypes.number.isRequired
     };
 
@@ -19,11 +16,11 @@ class Pagination extends Component {
     }
 
     shouldComponentUpdate (nextProps) {
-        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage);
+        return !(this.props.qty === nextProps.qty && this.props.currentPage === nextProps.currentPage && this.props.cryptoList.length === nextProps.cryptoList.length);
     }
 
     _changePage (e) {
-        this.props.dispatch(changePage(Number(e.target.innerHTML)));
+        this.props.changePage(Number(e.target.innerHTML));
     }
 
     render () {
@@ -31,9 +28,9 @@ class Pagination extends Component {
         const pageNumbers = [];
         const pageQty = Math.ceil(cryptoList.length / qty);
         const dots = <span className = { Styles.dots }>&hellip;</span>;
-        let pageNumberForRender = null;
+        let pageNumberForRender = [];
 
-        for (let i = 1; i < pageQty; i++) {
+        for (let i = 1; i <= pageQty; i++) {
             pageNumbers.push(i);
         }
 
@@ -47,10 +44,12 @@ class Pagination extends Component {
             </a>
         ));
 
-        if (currentPage === 1 || currentPage === 2 || currentPage === 3) {
+        if (currentPage === 1 || currentPage === 2 || currentPage === 3 || currentPage === 4) {
             pageNumberForRender = pageList.slice(0, 5);
-            pageNumberForRender.push(dots, pageList[pageList.length - 1]);
-        } else if (currentPage === pageQty - 1 || currentPage === pageQty - 2 || currentPage === pageQty - 3) {
+            if (pageQty > 5) {
+                pageNumberForRender.push(dots, pageList[pageList.length - 1]);
+            }
+        } else if (currentPage === pageQty || currentPage === pageQty - 1 || currentPage === pageQty - 2 || currentPage === pageQty - 3) {
             pageNumberForRender = pageList.slice(0, 1);
             pageNumberForRender.push(dots, pageList.slice([pageList.length - 6]));
         } else {
@@ -58,7 +57,7 @@ class Pagination extends Component {
             pageNumberForRender.push(dots, pageList[currentPage - 2], pageList[currentPage - 1], pageList[currentPage], dots, pageList[pageList.length - 1]);
         }
 
-        pageNumberForRender = qty === cryptoList.length
+        pageNumberForRender = pageQty === 1
             ? <p />
             : pageNumberForRender;
 
@@ -69,10 +68,3 @@ class Pagination extends Component {
         );
     }
 }
-const mapStateToProps = (state) => ({
-    currentPage: state.paginationReducer.currentPage,
-    cryptoList:  state.cryptoReducer.cryptoList,
-    qty:         state.paginationReducer.qtyCryptosInTable
-});
-
-export default connect(mapStateToProps)(Pagination);
