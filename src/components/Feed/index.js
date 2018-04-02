@@ -50,7 +50,6 @@ export default class Feed extends Component {
                     cryptoList = { cryptoList }
                     currentPage = { currentPage }
                     qty = { qty }
-                    searcher = { searcher }
                 />
                 <Pagination
                     changePage = { changePage }
