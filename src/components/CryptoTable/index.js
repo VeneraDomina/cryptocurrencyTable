@@ -17,14 +17,8 @@ export default class CryptoTable extends Component {
     }
 
     render () {
-        const { cryptoList, currentPage, searcher, qty } = this.props;
-        let filteredCryptoList = [];
-
-        if (cryptoList.length) {
-            filteredCryptoList = cryptoList.filter((item) => item[3].includes(searcher));
-        }
-
-        const table = filteredCryptoList.slice((currentPage-1)*qty, currentPage*qty);
+        const { cryptoList, currentPage, qty } = this.props;
+        const table = cryptoList.slice((currentPage-1)*qty, currentPage*qty);
 
         let tableForRender = [];
 
