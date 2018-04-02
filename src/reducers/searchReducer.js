@@ -3,9 +3,10 @@ import { FIND_CRYPTO } from '../actions/searcherAction';
 const initialState = '';
 
 export default function searchReducer (state = initialState, action) {
-    if (action.type === FIND_CRYPTO) {
-        return action.payload;
+    switch (action.type) {
+        case FIND_CRYPTO:
+            return action.payload;
+        default:
+            return state;
     }
-
-    return state;
 }

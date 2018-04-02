@@ -1,4 +1,5 @@
 import { api } from '../constants';
+import axios from 'axios';
 
 export const FETCH_CRYPTOS_BEGIN   = 'FETCH_CRYPTOS_BEGIN';
 export const FETCH_CRYPTOS_SUCCESS = 'FETCH_CRYPTOS_SUCCESS';
@@ -19,7 +20,7 @@ export const fetchCryptosFailure = (error) => ({
 });
 
 function handleErrors (response) {
-    if (!response.ok) {
+    if (response.status !== 200) {
         throw Error(response.statusText);
     }
 
@@ -27,17 +28,17 @@ function handleErrors (response) {
 }
 
 export function fetchCryptos () {
-    return (dispatch) => {
+    return async (dispatch) => {
         dispatch(fetchCryptosBegin());
 
-        return fetch(api)
-            .then(handleErrors)
-            .then((res) => res.json())
-            .then((json) => {
-                dispatch(fetchCryptosSuccess(json.Data));
+        try {
+            const success = await axios.post(api);
 
-                return json.Data;
-            })
-            .catch((error) => dispatch(fetchCryptosFailure(error)));
+            handleErrors(success);
+
+            return dispatch(fetchCryptosSuccess(success.data.Data));
+        } catch (error) {
+            return dispatch(fetchCryptosFailure(error));
+        }
     };
 }
