@@ -3,12 +3,12 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
 import { apiImage } from '../constants';
-
-import Feed from '../components/Feed';
-import './App.css';
 import { fetchCryptos } from '../actions/cryptoActions';
 import { changeQty, changePage } from '../actions/paginationActions';
 import { findCrypto } from '../actions/searcherAction';
+
+import Feed from '../components/Feed';
+import './App.css';
 
 class App extends Component {
 
